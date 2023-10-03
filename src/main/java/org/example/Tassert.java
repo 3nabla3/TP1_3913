@@ -1,51 +1,24 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class Tassert {
+    public static int CountAssert(String filepath) {
+        CodeScanner scanner = new CodeScanner(filepath);
+        int count = 0;
 
-    private int compteur;
-
-    public Tassert(){
-        this.compteur = 0;
-    }
-
-    public void countTassert(BufferedReader r) throws IOException {
         String line;
-        while((line = r.readLine()) != null){
-            if((line.contains("assert") || line.contains("fail")) && !line.contains("//") && !line.contains("import")){
-                this.compteur++;
+        while ((line = scanner.nextLine()) != null) {
+            if ((line.contains("assert") || line.contains("fail")) && !line.contains("//") && !line.contains("import")) {
+                count++;
             }
         }
+        return count;
     }
 
-    public int getCompteur(){
-        return this.compteur;
+    public static void main(String[] args) {
+        Pair<String, String> parsed_args = Utils.ParseArgs(args);
+        String input_filename = parsed_args.first;
+
+        int tassert = CountAssert(input_filename);
+        System.out.println(tassert);
     }
-
-
-    public static void main(String args[]) throws FileNotFoundException {
-
-        int result = 0;
-        if (args.length != 1) {
-            System.out.println("Must be one and only one input file");
-            System.exit(1);
-        }
-        try {
-            String file = args[0];
-            Tassert tassert = new Tassert();
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            tassert.countTassert(reader);
-            result = tassert.getCompteur();
-        } catch (IOException ex) {
-            System.out.println("Erreur de lecture");
-            System.exit(1);
-        }
-
-        System.out.println(result);
-    }
-
 }

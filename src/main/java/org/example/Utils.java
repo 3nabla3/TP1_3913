@@ -20,12 +20,14 @@ public class Utils {
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp(args[0], options);
-
             System.exit(1);
         }
-
-        String output_string = cmd.getOptionValue("output");
+        if (cmd.getArgs().length == 0) {
+            System.out.println("Input file was not provided");
+            System.exit(1);
+        }
         String input_string = cmd.getArgs()[0];
+        String output_string = cmd.getOptionValue("output");
         return new Pair<>(input_string, output_string);
     }
 }

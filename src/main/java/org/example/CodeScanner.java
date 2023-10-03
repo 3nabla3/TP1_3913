@@ -1,10 +1,13 @@
 package org.example;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
+/**
+ * Takes in a filename and returns each line of code one by one
+ */
 public class CodeScanner {
     ArrayList<String> lines;
     int index = 0;
@@ -12,8 +15,15 @@ public class CodeScanner {
     // stolen from https://stackoverflow.com/a/1740692
     String commentRegex = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
 
-    public CodeScanner(String filepath) throws IOException {
-        String content = Files.readString(Paths.get(filepath));
+    public CodeScanner(String filepath) {
+        String content = null;
+        try {
+            content = Files.readString(Paths.get(filepath));
+        } catch (java.io.IOException e) {
+            System.out.println("Could not open file " + filepath);
+            System.exit(1);
+        }
+
         content = content.replaceAll(commentRegex, " ");
         String[] temp_lines = content.split("\n");
 
@@ -25,6 +35,10 @@ public class CodeScanner {
         }
     }
 
+    /**
+     * Returns the next line in the file, null if the line does not exist
+     * @return The string of the next line in the file
+     */
     public String nextLine() {
         if (index >= lines.size())
             return null;
