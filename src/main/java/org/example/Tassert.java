@@ -1,7 +1,9 @@
 package org.example;
 
+import java.io.File;
+
 public class Tassert {
-    public static int CountAssert(String filepath) {
+    public static int CountAssert(File filepath) {
         CodeScanner scanner = new CodeScanner(filepath);
         int count = 0;
 
@@ -15,10 +17,10 @@ public class Tassert {
     }
 
     public static void main(String[] args) {
-        Pair<String, String> parsed_args = Utils.ParseArgs(args);
-        String input_filename = parsed_args.first;
+        Pair<File, File> parsed_args = Utils.ParseArgs(args);
+        File input_file = parsed_args.first;
 
-        int tassert = CountAssert(input_filename);
+        int tassert = CountAssert(input_file);
         System.out.println(tassert);
     }
 }

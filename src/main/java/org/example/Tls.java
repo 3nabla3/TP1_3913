@@ -28,9 +28,9 @@ public class Tls {
         }
     }
 
-    public static ArrayList<File> ListAllFiles(String dir_name) {
+    public static ArrayList<File> ListAllFiles(File dir) {
         ArrayList<File> fileList = new ArrayList<>();
-        Impl_ListAllFilesRec(new File(dir_name), fileList);
+        Impl_ListAllFilesRec(dir, fileList);
 
         return fileList;
     }
@@ -58,17 +58,17 @@ public class Tls {
 
 
     public static void main(String[] args) {
-        Pair<String, String> parsed_args = Utils.ParseArgs(args);
-        String input_dir = parsed_args.first;
+        Pair<File, File> parsed_args = Utils.ParseArgs(args);
+        File input_dir = parsed_args.first;
 
         ArrayList<File> file_list = ListAllFiles(input_dir);
 
         for (File file : file_list) {
             String package_name = GetPackageName(file);
             String class_name = file.getName().replace(".java", ""); // TODO: is this always true??
-            int tloc = Tloc.GetTloc(file.getPath());
-            int tassert = Tassert.CountAssert(file.getPath());
-            float tcmp = (float)tloc / (float)tassert; // TODO: il faut peut-être round up??
+            int tloc = Tloc.GetTloc(file);
+            int tassert = Tassert.CountAssert(file);
+            float tcmp = (float) tloc / (float) tassert; // TODO: il faut peut-être round up??
 
             System.out.printf("%s, %s, %s, %d, %d, %f\n", file, package_name, class_name, tloc, tassert, tcmp);
         }

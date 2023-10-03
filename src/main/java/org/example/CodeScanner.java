@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class CodeScanner {
     // stolen from https://stackoverflow.com/a/1740692
     String commentRegex = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
 
-    public CodeScanner(String filepath) {
+    private void Init(String filepath) {
         String content = null;
         try {
             content = Files.readString(Paths.get(filepath));
@@ -35,8 +36,17 @@ public class CodeScanner {
         }
     }
 
+    public CodeScanner(File file) {
+        Init(file.getPath());
+    }
+
+    public CodeScanner(String filepath) {
+        Init(filepath);
+    }
+
     /**
      * Returns the next line in the file, null if the line does not exist
+     *
      * @return The string of the next line in the file
      */
     public String nextLine() {

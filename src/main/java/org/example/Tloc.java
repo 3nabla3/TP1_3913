@@ -1,10 +1,11 @@
 package org.example;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Tloc {
-    public static int GetTloc(String input_file_path) {
-        CodeScanner scanner = new CodeScanner(input_file_path);
+    public static int GetTloc(File input_file) {
+        CodeScanner scanner = new CodeScanner(input_file);
 
         int tloc = 0;
 
@@ -18,8 +19,8 @@ public class Tloc {
     }
 
     public static void main(String[] args) throws IOException {
-        Pair<String, String> parsed_args = Utils.ParseArgs(args);
-        String input_file_path = parsed_args.first;
+        Pair<File, File> parsed_args = Utils.ParseArgs(args);
+        File input_file_path = parsed_args.first;
         int tloc = GetTloc(input_file_path);
 
         System.out.println(tloc);
