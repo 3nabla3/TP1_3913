@@ -1,39 +1,36 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class CodeScanner {
-    Scanner scanner;
+    ArrayList<String> lines;
+    int index = 0;
 
-    public CodeScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
+    // stolen from https://stackoverflow.com/a/1740692
+    String commentRegex = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
 
-    public CodeScanner(File file) throws FileNotFoundException {
-        this.scanner = new Scanner(file);
+    public CodeScanner(String filepath) throws IOException {
+        String content = Files.readString(Paths.get(filepath));
+        content = content.replaceAll(commentRegex, " ");
+        String[] temp_lines = content.split("\n");
+
+        lines = new ArrayList<>();
+
+        for (String tempLine : temp_lines) {
+            String line = tempLine.strip();
+            if (!line.isEmpty()) lines.add(line);
+        }
     }
 
     public String nextLine() {
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            line = line.strip();
+        if (index >= lines.size())
+            return null;
 
-            // whitespace
-            if (line.isEmpty()) continue;
-            // single line comment
-            if (line.startsWith("//")) continue;
-            // start block comment
-            if (line.startsWith("/*")) continue;
-            // block comment
-            if (line.startsWith("*")) continue;
-            // end block comment
-            if (line.startsWith("*/")) continue;
-
-            return line;
-        }
-
-        return null;
+        String line = lines.get(index);
+        index++;
+        return line;
     }
 }

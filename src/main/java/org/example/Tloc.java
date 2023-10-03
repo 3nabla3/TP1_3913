@@ -1,8 +1,6 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Tloc {
     public static int GetTloc(CodeScanner scanner) {
@@ -17,7 +15,7 @@ public class Tloc {
         return tloc;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         Pair<String, String> parsed_args = Utils.ParseArgs(args);
 
         String input_file_path = parsed_args.first;
@@ -25,8 +23,7 @@ public class Tloc {
         String output_file_path = parsed_args.second;
         System.out.println("output_file_path = " + output_file_path);
 
-        File input_file = new File(input_file_path);
-        CodeScanner scanner = new CodeScanner(input_file);
+        CodeScanner scanner = new CodeScanner(input_file_path);
 
         int tloc = GetTloc(scanner);
         System.out.println("tloc = " + tloc);
