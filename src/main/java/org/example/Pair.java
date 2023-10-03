@@ -10,8 +10,4 @@ public class Pair<T, U> {
         this.first = first;
         this.second = second;
     }
-
-    public static void main(String[] args) {
-        System.out.println("Hello world");
-    }
 }
