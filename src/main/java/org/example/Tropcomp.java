@@ -10,12 +10,14 @@ public class Tropcomp {
 
     public void getAllTestFiles(File dir){
         if (dir == null || !dir.isDirectory()) {
+            System.out.println("Not a directory or null");
             return; // Base case: If it's not a directory, return
         }
 
         String targetDir = "test\\java";
         File pathToTarget = new File(dir, targetDir);
-
+        //System.out.println(pathToTarget.getPath());
+        Tls tls = new Tls();
 
     }
 
@@ -23,7 +25,11 @@ public class Tropcomp {
 
     public static void main(String[] args) {
 
+        Pair<File, File> parsed_args = Utils.ParseArgs(args);
+        File input_file = parsed_args.first;
 
+        Tropcomp tc = new Tropcomp();
+        tc.getAllTestFiles(input_file);
 
     }
 }
