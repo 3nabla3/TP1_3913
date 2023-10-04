@@ -59,7 +59,7 @@ public class Tropcomp {
         float tcmp_threshold = Get10PercentMostTcmp(tlsOutputs);
 
         for (TlsOutput tlsOutput : tlsOutputs)
-            // if both metics are above the threshold, print the file
+            // if both metrics are above the threshold, print the file
             if (tlsOutput.tloc > tloc_threshold && tlsOutput.tcmp > tcmp_threshold)
                 io.Output(tlsOutput);
     }

@@ -3,6 +3,12 @@ package org.example;
 import java.io.File;
 
 public class Tassert {
+    /**
+     * Count the number of assert statements within a file
+     *
+     * @param filepath The file to count the assert statements of
+     * @return The number of assert statements in the file
+     */
     public static int CountAssert(File filepath) {
         CodeScanner scanner = new CodeScanner(filepath);
         int count = 0;

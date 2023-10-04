@@ -14,7 +14,7 @@ public class CodeScanner {
     int index = 0;
 
     // stolen from https://stackoverflow.com/a/1740692
-    String commentRegex = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
+    final String commentRegex = "//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/";
 
     private void Init(String filepath) {
         String content = null;
@@ -38,10 +38,6 @@ public class CodeScanner {
 
     public CodeScanner(File file) {
         Init(file.getPath());
-    }
-
-    public CodeScanner(String filepath) {
-        Init(filepath);
     }
 
     /**
