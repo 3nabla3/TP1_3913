@@ -17,10 +17,9 @@ public class Tassert {
     }
 
     public static void main(String[] args) {
-        Pair<File, File> parsed_args = Utils.ParseArgs(args);
-        File input_file = parsed_args.first;
+        InputOutput io = new InputOutput(args);
+        int tassert = CountAssert(io.input_file);
 
-        int tassert = CountAssert(input_file);
-        System.out.println(tassert);
+        io.Output(tassert);
     }
 }

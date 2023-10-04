@@ -1,3 +1,6 @@
+# all output files
+*.csv
+
 target/
 out/
 !.mvn/wrapper/maven-wrapper.jar

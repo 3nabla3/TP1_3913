@@ -3,9 +3,16 @@ package org.example;
 import org.apache.commons.cli.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
-public class Utils {
-    public static Pair<File, File> ParseArgs(String[] args) {
+public class InputOutput {
+    File input_file;
+    PrintStream output_stream;
+
+    public InputOutput(String[] args) {
         Options options = new Options();
 
         Option output = new Option("o", "output", true, "output file");
@@ -31,7 +38,7 @@ public class Utils {
 
         // make sure the first argument is a valid file
         String input_filepath = cmd.getArgs()[0];
-        File input_file = new File(input_filepath);
+        input_file = new File(input_filepath);
         if (!input_file.exists()) {
             System.out.println("The input file does not exist");
             System.exit(1);
@@ -39,12 +46,29 @@ public class Utils {
 
         // maybe the second argument was not passed
         String output_filepath = cmd.getOptionValue("output");
-        File output_file;
-        if (output_filepath == null)
-            output_file = null;
-        else
-            output_file = new File(output_filepath);
 
-        return new Pair<>(input_file, output_file);
+        // attempt to open the output file if provided
+        if (output_filepath == null) {
+            output_stream = System.out;
+        } else {
+            try {
+                output_stream = new PrintStream(output_filepath, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                System.out.println("Could not open output file");
+                System.exit(1);
+            }
+        }
+    }
+
+    public void Output(int integer) {
+        output_stream.println(integer);
+    }
+
+    public void Output(String string) {
+        output_stream.println(string);
+    }
+
+    public void Output(Object object) {
+        output_stream.println(object);
     }
 }

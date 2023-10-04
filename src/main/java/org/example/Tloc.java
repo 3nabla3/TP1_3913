@@ -19,10 +19,9 @@ public class Tloc {
     }
 
     public static void main(String[] args) throws IOException {
-        Pair<File, File> parsed_args = Utils.ParseArgs(args);
-        File input_file_path = parsed_args.first;
-        int tloc = GetTloc(input_file_path);
+        InputOutput io = new InputOutput(args);
+        int tloc = GetTloc(io.input_file);
 
-        System.out.println(tloc);
+        io.Output(tloc);
     }
 }

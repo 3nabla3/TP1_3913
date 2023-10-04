@@ -58,15 +58,13 @@ public class Tls {
 
 
     public static void main(String[] args) {
-        Pair<File, File> parsed_args = Utils.ParseArgs(args);
-        File input_dir = parsed_args.first;
-
-        ArrayList<File> file_list = ListAllFiles(input_dir);
+        InputOutput io = new InputOutput(args);
+        ArrayList<File> file_list = ListAllFiles(io.input_file);
 
         for (File file : file_list) {
             TlsOutput tlsOutput = new TlsOutput(file);
             if (tlsOutput.ContainsTest())
-                System.out.println(tlsOutput);
+                io.Output(tlsOutput);
         }
     }
 }

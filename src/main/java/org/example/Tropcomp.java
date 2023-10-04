@@ -7,6 +7,7 @@ import java.util.Comparator;
 public class Tropcomp {
     /**
      * Returns the 10% highest given a comparison function
+     *
      * @param tlsOutputs The list of TlsOutput to compare
      * @param comparator The comparison function
      * @return the element of the array at the 10th percentile
@@ -21,6 +22,7 @@ public class Tropcomp {
 
     /**
      * Returns the 10% highest tloc
+     *
      * @param tlsOutputs The list of TlsOutput to compare
      * @return the tloc of the element of the array at the 10th percentile
      */
@@ -31,6 +33,7 @@ public class Tropcomp {
 
     /**
      * Returns the 10% highest tcmp
+     *
      * @param tlsOutputs The list of TlsOutput to compare
      * @return the tcmp of the element of the array at the 10th percentile
      */
@@ -40,9 +43,8 @@ public class Tropcomp {
     }
 
     public static void main(String[] args) {
-        Pair<File, File> parsed_args = Utils.ParseArgs(args);
-        File project_dir = parsed_args.first;
-        File test_dir = new File(project_dir, "src/test");
+        InputOutput io = new InputOutput(args);
+        File test_dir = new File(io.input_file, "src/test");
 
         ArrayList<TlsOutput> tlsOutputs = new ArrayList<>();
 
@@ -59,6 +61,6 @@ public class Tropcomp {
         for (TlsOutput tlsOutput : tlsOutputs)
             // if both metics are above the threshold, print the file
             if (tlsOutput.tloc > tloc_threshold && tlsOutput.tcmp > tcmp_threshold)
-                System.out.println(tlsOutput);
+                io.Output(tlsOutput);
     }
 }
