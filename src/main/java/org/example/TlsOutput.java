@@ -11,12 +11,16 @@ public class TlsOutput {
     float tcmp;
 
     public TlsOutput(File file) {
-        file_name = file.getName();
+        file_name = file.getPath();
         package_name = Tls.GetPackageName(file);
         class_name = file.getName().replace(".java", ""); // TODO: is this always true??
         tloc = Tloc.GetTloc(file);
         tassert = Tassert.CountAssert(file);
         tcmp = (float) tloc / (float) tassert; // TODO: il faut peut-être round up??
+    }
+
+    public boolean ContainsTest() {
+        return tassert > 0;
     }
 
     public String toString() {

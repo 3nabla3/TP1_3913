@@ -12,10 +12,9 @@ public class Tropcomp {
      * @return the element of the array at the 10th percentile
      */
     private static TlsOutput Get10PercentMost(ArrayList<TlsOutput> tlsOutputs, Comparator<TlsOutput> comparator) {
-        // sort the list by tloc
         tlsOutputs.sort(comparator);
 
-        // get the 10% most tloc
+        // get the index at the 10th percentile and return it
         int ten_percent = (int) Math.ceil(tlsOutputs.size() * 0.1);
         return tlsOutputs.get(ten_percent);
     }
@@ -42,13 +41,17 @@ public class Tropcomp {
 
     public static void main(String[] args) {
         Pair<File, File> parsed_args = Utils.ParseArgs(args);
-        File input_file = parsed_args.first;
+        File project_dir = parsed_args.first;
+        File test_dir = new File(project_dir, "src/test");
 
         ArrayList<TlsOutput> tlsOutputs = new ArrayList<>();
 
-        ArrayList<File> file_list = Tls.ListAllFiles(input_file);
-        for (File file : file_list)
-            tlsOutputs.add(new TlsOutput(file));
+        ArrayList<File> file_list = Tls.ListAllFiles(test_dir);
+        for (File file : file_list) {
+            TlsOutput tlsOutput = new TlsOutput(file);
+            if (tlsOutput.ContainsTest())
+                tlsOutputs.add(tlsOutput);
+        }
 
         int tloc_threshold = Get10PercentMostTloc(tlsOutputs);
         float tcmp_threshold = Get10PercentMostTcmp(tlsOutputs);

@@ -65,7 +65,8 @@ public class Tls {
 
         for (File file : file_list) {
             TlsOutput tlsOutput = new TlsOutput(file);
-            System.out.println(tlsOutput);
+            if (tlsOutput.ContainsTest())
+                System.out.println(tlsOutput);
         }
     }
 }
