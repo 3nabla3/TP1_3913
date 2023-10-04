@@ -64,13 +64,8 @@ public class Tls {
         ArrayList<File> file_list = ListAllFiles(input_dir);
 
         for (File file : file_list) {
-            String package_name = GetPackageName(file);
-            String class_name = file.getName().replace(".java", ""); // TODO: is this always true??
-            int tloc = Tloc.GetTloc(file);
-            int tassert = Tassert.CountAssert(file);
-            float tcmp = (float) tloc / (float) tassert; // TODO: il faut peut-être round up??
-
-            System.out.printf("%s, %s, %s, %d, %d, %f\n", file, package_name, class_name, tloc, tassert, tcmp);
+            TlsOutput tlsOutput = new TlsOutput(file);
+            System.out.println(tlsOutput);
         }
     }
 }

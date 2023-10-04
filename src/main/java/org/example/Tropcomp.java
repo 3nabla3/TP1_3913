@@ -1,35 +1,61 @@
 package org.example;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Tropcomp {
+    /**
+     * Returns the 10% highest given a comparison function
+     * @param tlsOutputs The list of TlsOutput to compare
+     * @param comparator The comparison function
+     * @return the element of the array at the 10th percentile
+     */
+    private static TlsOutput Get10PercentMost(ArrayList<TlsOutput> tlsOutputs, Comparator<TlsOutput> comparator) {
+        // sort the list by tloc
+        tlsOutputs.sort(comparator);
 
-    ArrayList<File> listFiles = new ArrayList<>();
-
-    public void getAllTestFiles(File dir){
-        if (dir == null || !dir.isDirectory()) {
-            System.out.println("Not a directory or null");
-            return; // Base case: If it's not a directory, return
-        }
-
-        String targetDir = "test\\java";
-        File pathToTarget = new File(dir, targetDir);
-        //System.out.println(pathToTarget.getPath());
-        Tls tls = new Tls();
-
+        // get the 10% most tloc
+        int ten_percent = (int) Math.ceil(tlsOutputs.size() * 0.1);
+        return tlsOutputs.get(ten_percent);
     }
 
+    /**
+     * Returns the 10% highest tloc
+     * @param tlsOutputs The list of TlsOutput to compare
+     * @return the tloc of the element of the array at the 10th percentile
+     */
+    private static int Get10PercentMostTloc(ArrayList<TlsOutput> tlsOutputs) {
+        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingInt(o -> o.tloc));
+        return t.tloc;
+    }
 
+    /**
+     * Returns the 10% highest tcmp
+     * @param tlsOutputs The list of TlsOutput to compare
+     * @return the tcmp of the element of the array at the 10th percentile
+     */
+    private static float Get10PercentMostTcmp(ArrayList<TlsOutput> tlsOutputs) {
+        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingDouble(o -> o.tcmp));
+        return t.tcmp;
+    }
 
     public static void main(String[] args) {
-
         Pair<File, File> parsed_args = Utils.ParseArgs(args);
         File input_file = parsed_args.first;
 
-        Tropcomp tc = new Tropcomp();
-        tc.getAllTestFiles(input_file);
+        ArrayList<TlsOutput> tlsOutputs = new ArrayList<>();
 
+        ArrayList<File> file_list = Tls.ListAllFiles(input_file);
+        for (File file : file_list)
+            tlsOutputs.add(new TlsOutput(file));
+
+        int tloc_threshold = Get10PercentMostTloc(tlsOutputs);
+        float tcmp_threshold = Get10PercentMostTcmp(tlsOutputs);
+
+        for (TlsOutput tlsOutput : tlsOutputs)
+            // if both metics are above the threshold, print the file
+            if (tlsOutput.tloc > tloc_threshold && tlsOutput.tcmp > tcmp_threshold)
+                System.out.println(tlsOutput);
     }
 }
