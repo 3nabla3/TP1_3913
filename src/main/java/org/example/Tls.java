@@ -62,7 +62,7 @@ public class Tls {
 
 
     public static void main(String[] args) {
-        InputOutput io = new InputOutput(args);
+        InputOutput io = new InputOutput(args, "Tls");
         ArrayList<File> file_list = ListAllFiles(io.input_file);
 
         for (File file : file_list) {

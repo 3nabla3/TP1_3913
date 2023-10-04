@@ -12,12 +12,13 @@ public class Tropcomp {
      * @param comparator The comparison function
      * @return the element of the array at the 10th percentile
      */
-    private static TlsOutput Get10PercentMost(ArrayList<TlsOutput> tlsOutputs, Comparator<TlsOutput> comparator) {
+    private static TlsOutput Get10PercentMost(ArrayList<TlsOutput> tlsOutputs, Comparator<TlsOutput> comparator, int seuil) {
         tlsOutputs.sort(comparator);
 
-        // get the index at the 10th percentile and return it
-        int ten_percent = (int) Math.ceil(tlsOutputs.size() * 0.1);
-        return tlsOutputs.get(ten_percent);
+        // get the index at the top <seuil>th percent and return it
+        float percentile = (float) (1 - (seuil / 100.0));
+        int index_at_percentile = (int) Math.ceil(tlsOutputs.size() * percentile);
+        return tlsOutputs.get(index_at_percentile);
     }
 
     /**
@@ -26,8 +27,8 @@ public class Tropcomp {
      * @param tlsOutputs The list of TlsOutput to compare
      * @return the tloc of the element of the array at the 10th percentile
      */
-    private static int Get10PercentMostTloc(ArrayList<TlsOutput> tlsOutputs) {
-        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingInt(o -> o.tloc));
+    private static int GetXPercentMostTloc(ArrayList<TlsOutput> tlsOutputs, int seuil) {
+        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingInt(o -> o.tloc), seuil);
         return t.tloc;
     }
 
@@ -37,13 +38,13 @@ public class Tropcomp {
      * @param tlsOutputs The list of TlsOutput to compare
      * @return the tcmp of the element of the array at the 10th percentile
      */
-    private static float Get10PercentMostTcmp(ArrayList<TlsOutput> tlsOutputs) {
-        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingDouble(o -> o.tcmp));
+    private static float GetXPercentMostTcmp(ArrayList<TlsOutput> tlsOutputs, int seuil) {
+        TlsOutput t = Get10PercentMost(tlsOutputs, Comparator.comparingDouble(o -> o.tcmp), seuil);
         return t.tcmp;
     }
 
     public static void main(String[] args) {
-        InputOutput io = new InputOutput(args);
+        InputOutput io = new InputOutput(args, "Tropcomp");
         File test_dir = new File(io.input_file, "src/test");
 
         ArrayList<TlsOutput> tlsOutputs = new ArrayList<>();
@@ -55,12 +56,12 @@ public class Tropcomp {
                 tlsOutputs.add(tlsOutput);
         }
 
-        int tloc_threshold = Get10PercentMostTloc(tlsOutputs);
-        float tcmp_threshold = Get10PercentMostTcmp(tlsOutputs);
+        int tloc_threshold = GetXPercentMostTloc(tlsOutputs, io.seuil);
+        float tcmp_threshold = GetXPercentMostTcmp(tlsOutputs, io.seuil);
 
         for (TlsOutput tlsOutput : tlsOutputs)
-            // if both metrics are above the threshold, print the file
-            if (tlsOutput.tloc > tloc_threshold && tlsOutput.tcmp > tcmp_threshold)
+            // if both metrics are above or equal to the threshold, print the file
+            if (tlsOutput.tloc >= tloc_threshold && tlsOutput.tcmp >= tcmp_threshold)
                 io.Output(tlsOutput);
     }
 }

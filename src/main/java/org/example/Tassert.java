@@ -23,7 +23,7 @@ public class Tassert {
     }
 
     public static void main(String[] args) {
-        InputOutput io = new InputOutput(args);
+        InputOutput io = new InputOutput(args, "Tassert");
         int tassert = CountAssert(io.input_file);
 
         io.Output(tassert);

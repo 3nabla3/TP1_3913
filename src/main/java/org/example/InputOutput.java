@@ -17,9 +17,17 @@ import java.nio.charset.StandardCharsets;
  */
 public class InputOutput {
     final File input_file;
+    final int seuil;
     PrintStream output_stream;
 
-    public InputOutput(String[] args) {
+    private static void printHelp(String program_name) {
+        if (program_name.equals("Tropcomp"))
+            System.out.printf("Usage: %s [-o <output_file>] <input_file> <seuil>\n", program_name);
+        else
+            System.out.printf("Usage: %s [-o <output_file>] <input_file>\n", program_name);
+    }
+
+    public InputOutput(String[] args, String program_name) {
         Options options = new Options();
 
         Option output = new Option("o", "output", true, "output file");
@@ -39,7 +47,7 @@ public class InputOutput {
             System.exit(1);
         }
         if (cmd.getArgs().length == 0) {
-            System.out.println("Usage: program -o <output_file> <input_file>");
+            printHelp(program_name);
             System.exit(1);
         }
 
@@ -51,7 +59,14 @@ public class InputOutput {
             System.exit(1);
         }
 
-        // maybe the second argument was not passed
+        // maybe the seuil argument was not passed
+        if (cmd.getArgs().length != 2)
+            seuil = 0;
+        else
+            seuil = Integer.parseInt(cmd.getArgs()[1]);
+
+
+        // maybe the output argument was not passed
         String output_filepath = cmd.getOptionValue("output");
 
         // attempt to open the output file if provided

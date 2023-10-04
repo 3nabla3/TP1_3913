@@ -24,7 +24,7 @@ public class Tloc {
     }
 
     public static void main(String[] args) {
-        InputOutput io = new InputOutput(args);
+        InputOutput io = new InputOutput(args, "Tloc");
         int tloc = GetTloc(io.input_file);
 
         io.Output(tloc);
