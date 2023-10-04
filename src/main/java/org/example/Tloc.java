@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Tloc {
+    /**
+     * Count the number of lines of code in a file
+     *
+     * @param input_file The file to count the lines of code of
+     * @return The number of lines of code in the file
+     */
     public static int GetTloc(File input_file) {
         CodeScanner scanner = new CodeScanner(input_file);
 

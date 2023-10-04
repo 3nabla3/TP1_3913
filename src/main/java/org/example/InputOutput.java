@@ -5,9 +5,16 @@ import org.apache.commons.cli.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+
+/**
+ * Takes in a config from the command line arguments and provides a layer of abstraction
+ * for input and output. For example the programmer only has to do io.Output("Hello World")
+ * and the result is in a file, stdout, etc... depending on the command line arguments.
+ * This class is also responsible for parsing the command line arguments and making sure
+ * they are valid.
+ */
 public class InputOutput {
     File input_file;
     PrintStream output_stream;
@@ -60,14 +67,12 @@ public class InputOutput {
         }
     }
 
-    public void Output(int integer) {
-        output_stream.println(integer);
-    }
-
-    public void Output(String string) {
-        output_stream.println(string);
-    }
-
+    /**
+     * Prints the object to the output stream
+     * Works for all data types
+     *
+     * @param object The object to print
+     */
     public void Output(Object object) {
         output_stream.println(object);
     }

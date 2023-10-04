@@ -13,12 +13,18 @@ public class TlsOutput {
     public TlsOutput(File file) {
         file_name = file.getPath();
         package_name = Tls.GetPackageName(file);
-        class_name = file.getName().replace(".java", ""); // TODO: is this always true??
+        class_name = file.getName().replace(".java", "");
         tloc = Tloc.GetTloc(file);
         tassert = Tassert.CountAssert(file);
-        tcmp = (float) tloc / (float) tassert; // TODO: il faut peut-être round up??
+        tcmp = (float) tloc / (float) tassert;
     }
 
+    /**
+     * Returns whether the file contains a test. We know it does if there is at least
+     * one assert statement.
+     *
+     * @return true if the file contains a test, false otherwise
+     */
     public boolean ContainsTest() {
         return tassert > 0;
     }
