@@ -30,6 +30,6 @@ public class TlsOutput {
     }
 
     public String toString() {
-        return String.format("%s, %s, %s, %d, %d, %f", file_name, package_name, class_name, tloc, tassert, tcmp);
+        return String.format("%s, %s, %s, %d, %d, %.2f", file_name, package_name, class_name, tloc, tassert, tcmp);
     }
 }
