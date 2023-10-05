@@ -5,7 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tassert {
-    final static Pattern pattern = Pattern.compile("assert[A-Za-z]+\\([A-Za-z0-9,_$()\". ]*\\);");
+    final static Pattern assertPattern = Pattern.compile(
+            "(fail|assert[A-Za-z]+)\\s*\\([A-Za-z0-9,_$()+\\-*/\\s&!|<>=\".{}\\[\\]]*\\)\\s*;"
+    );
 
     /**
      * Count the number of assert statements within a file
@@ -14,16 +16,10 @@ public class Tassert {
      * @return The number of assert statements in the file
      */
     public static int CountAssert(File filepath) {
-        CodeScanner scanner = new CodeScanner(filepath);
-        int count = 0;
+        CodeParser scanner = new CodeParser(filepath);
 
-        String line;
-        while ((line = scanner.nextLine()) != null) {
-            Matcher matcher = pattern.matcher(line);
-
-            count += (int) matcher.results().count();
-        }
-        return count;
+        Matcher matcher = assertPattern.matcher(scanner.contents);
+        return (int) matcher.results().count();
     }
 
     public static void main(String[] args) {

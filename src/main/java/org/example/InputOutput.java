@@ -22,7 +22,7 @@ public class InputOutput {
 
     private static void printHelp(String program_name) {
         if (program_name.equals("Tropcomp"))
-            System.out.printf("Usage: %s [-o <output_file>] <input_file> <seuil>\n", program_name);
+            System.out.printf("Usage: %s [-o <output_file>] <input_file> <seuil > 0>\n", program_name);
         else
             System.out.printf("Usage: %s [-o <output_file>] <input_file>\n", program_name);
     }
@@ -65,9 +65,15 @@ public class InputOutput {
         else
             seuil = Integer.parseInt(cmd.getArgs()[1]);
 
+        // the seuil argument is required for Tropcomp
+        if (seuil == 0 && program_name.equals("Tropcomp")) {
+            printHelp(program_name);
+            System.exit(1);
+        }
 
         // maybe the output argument was not passed
         String output_filepath = cmd.getOptionValue("output");
+
 
         // attempt to open the output file if provided
         if (output_filepath == null) {

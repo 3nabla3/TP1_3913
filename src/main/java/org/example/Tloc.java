@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class Tloc {
     /**
@@ -10,17 +11,16 @@ public class Tloc {
      * @return The number of lines of code in the file
      */
     public static int GetTloc(File input_file) {
-        CodeScanner scanner = new CodeScanner(input_file);
+        CodeParser scanner = new CodeParser(input_file);
+        String contents = scanner.contents;
 
-        int tloc = 0;
-
-        String line = scanner.nextLine();
-        while (line != null) {
-            tloc += 1;
-            line = scanner.nextLine();
+        int count = 0;
+        for (String line: contents.split("\n")) {
+            if (line.trim().isEmpty()) continue;
+            count++;
         }
 
-        return tloc;
+        return count;
     }
 
     public static void main(String[] args) {
