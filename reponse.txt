@@ -1,0 +1,23 @@
+Avec les seuils de 10%, 5% et 1%, une seule classe a été
+détectée comme problématique dans les fichiers tests. Après
+avoir analyser ce fichier nous avons remarqué qu’il ne
+semblait pas y avoir un problème de complexité à cette
+classe. La raison pour laquelle cette classe est ressortie
+avec un seuil de 10% est que contrairement aux autres
+classes de test, celle-ci testait différentes procédures au
+lieu des valeurs de retour. On observait des procédures de
+40 lignes environ avant de faire un appel à une fonction «
+assertTrue » de JUnit.
+
+Pour améliorer l’heuristique nous pourrions changer la
+valeur du seuil, et aussi rajouter d’autres métriques à
+l’analyse. Par exemple, regarder aussi le nombre de méthode
+en plus du nombre total de « assert » et de lignes. Toutes
+les métriques utilisées dans ce travail nous permettent de
+faire une analyse statique. Pour avoir une meilleure
+compréhension de cette complexité il faudrait aussi faire
+une analyse dynamique, comme une couverture du code source
+par l’exécution des tests. Nous pourrions avoir une
+compréhension plus abstraite du code, en utilisant des
+métriques orientées objet. Ces métrique peuvent aider à
+mieux guider les efforts de test.

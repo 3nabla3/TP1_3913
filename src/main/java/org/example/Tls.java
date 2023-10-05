@@ -33,7 +33,6 @@ public class Tls {
      * @return An arraylist of all files in that directory
      */
     public static ArrayList<File> ListAllFiles(File dir) {
-        // TODO: make this an iterator for efficiency
         ArrayList<File> fileList = new ArrayList<>();
         Impl_ListAllFilesRec(dir, fileList);
 

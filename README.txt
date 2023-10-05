@@ -27,3 +27,9 @@ java -jar artifacts/tassert.jar
 java -jar artifacts/tls.jar
 java -jar artifacts/tropcomp.jar
 ```
+
+
+Informations supplémentaires :
+
+Programmation en paire : mardi 3 octobre 2023 et jeudi 5 octobre 2023
+Utilisation de ChatGPT pour génération de code. Voir fichier GPT prompts.yml
